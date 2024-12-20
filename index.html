@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الدفع</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #content {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <div>
+            <button onclick="setLanguage('ar')">عربي</button>
+            <button onclick="setLanguage('en')">English</button>
+        </div>
+        <h1 id="title">مرحبًا بك في تطبيق الدفع</h1>
+        <h2 id="choosePayment">اختر طريقة الدفع:</h2>
+        <a id="baridimob" href="baridimob.html">الدفع باستخدام BaridiMob</a><br><br>
+        <a id="paypal" href="paypal.html">الدفع باستخدام PayPal</a>
+    </div>
+
+    <script>
+        const translations = {
+            ar: {
+                title: "مرحبًا بك في تطبيق الدفع",
+                choosePayment: "اختر طريقة الدفع:",
+                baridimob: "الدفع باستخدام BaridiMob",
+                paypal: "الدفع باستخدام PayPal"
+            },
+            en: {
+                title: "Welcome to the Payment App",
+                choosePayment: "Choose your payment method:",
+                baridimob: "Pay with BaridiMob",
+                paypal: "Pay with PayPal"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.getElementById("title").innerText = translations[lang].title;
+            document.getElementById("choosePayment").innerText = translations[lang].choosePayment;
+            document.getElementById("baridimob").innerText = translations[lang].baridimob;
+            document.getElementById("paypal").innerText = translations[lang].paypal;
+        }
+    </script>
+</body>
+</html>

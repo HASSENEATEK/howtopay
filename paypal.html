@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدفع باستخدام PayPal</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=Adt46nDrXb06zRHPKHMpsjzaNcZboFvmeNpxkPRTncs-iFI10mr9ZvDOM3qX4pGjTwQrhIIMZG50adVj&currency=USD"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #content {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>الدفع باستخدام PayPal</h1>
+        <div id="paypal-button-container"></div>
+        <script>
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: '10.00' }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('تم الدفع بنجاح بواسطة ' + details.payer.name.given_name);
+                    });
+                },
+                onError: function(err) {
+                    console.error('خطأ أثناء الدفع:', err);
+                }
+            }).render('#paypal-button-container');
+        </script>
+        <a href="index.html">عودة إلى الصفحة الرئيسية</a>
+    </div>
+</body>
+</html>
