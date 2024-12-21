@@ -144,6 +144,16 @@
     <form id="commentForm">
       <input type="text" id="nameInput" placeholder="اسمك" required>
       <textarea id="commentInput" placeholder="اكتب تعليقك هنا..." rows="4" required></textarea>
+     <!-- مربع الاختيار للموافقة على سياسة الخصوصية -->
+      <div>
+        <input type="checkbox" id="privacyConsent" required>
+        <label for="privacyConsent">أوافق على <a href="privacy.html" target="_blank">سياسة الخصوصية</a></label>
+      </div>
+
+      <button type="submit">إرسال</button>
+    </form>
+
+    <ul id="commentList">
       <button type="submit">إرسال</button>
     </form>
     <ul id="commentList">
