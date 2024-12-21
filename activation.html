@@ -3,84 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تطبيق الدفع</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: #f2f2f2;
-      min-height: 100vh;
-    }
-    .container {
-      text-align: center;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    input {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #003366;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0055cc;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
+  <title>صفحة التفعيل</title>
 </head>
 <body>
-  <div class="container">
-    <h2>أدخل كود التفعيل</h2>
-    <form id="activationForm">
-      <input type="text" id="activationCode" placeholder="أدخل كود التفعيل هنا" required>
-      <button type="submit">تفعيل</button>
-    </form>
-    <p class="error" id="errorMessage"></p>
-  </div>
+  <h1>أدخل كود التفعيل</h1>
+  <form id="activationForm">
+    <input type="text" id="activationCode" placeholder="أدخل كود التفعيل" required>
+    <button type="submit">تفعيل</button>
+  </form>
+  <p id="message" style="color: red;"></p>
 
   <script>
     document.getElementById('activationForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const enteredCode = document.getElementById('activationCode').value.trim();
+      const activationCode = document.getElementById('activationCode').value.trim();
 
-      fetch('check_code.php', {
+      // إرسال كود التفعيل إلى الخادم للتحقق
+      fetch('/verify-code', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: `code=${enteredCode}`,
+        body: JSON.stringify({ code: activationCode }),
       })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
-        if (data === "valid") {
-          window.location.href = "home.html"; // الانتقال إلى الصفحة الرئيسية بعد التحقق الناجح
+        if (data.success) {
+          // تخزين حالة التفعيل وتوجيه المستخدم
+          localStorage.setItem('isActivated', 'true');
+          window.location.href = 'home.html';
         } else {
-          document.getElementById('errorMessage').textContent = "الكود غير صحيح أو تم استخدامه مسبقًا.";
+          document.getElementById('message').textContent = 'كود التفعيل غير صحيح.';
         }
       })
       .catch(error => {
-        console.error("Error:", error);
+        console.error('خطأ في الاتصال بالخادم:', error);
+        document.getElementById('message').textContent = 'حدث خطأ أثناء التحقق. حاول مرة أخرى.';
       });
     });
   </script>
